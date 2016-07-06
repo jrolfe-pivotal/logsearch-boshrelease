@@ -28,7 +28,7 @@ jobs:
 ##################################################################
 
 - name: elasticsearch_data
-  instances: 2
+  instances: 1
   templates:
   - {name: elasticsearch, release: logsearch}
   resource_pool: elasticsearch_data
@@ -75,7 +75,7 @@ properties:
     debug: false
   elasticsearch:
     master_hosts: (( grab jobs.elasticsearch_master.networks.default.static_ips ))
-    cluster_name: logsearch
+    cluster_name: elasticsearch-default
     exec: ~
   elasticsearch_config:
     elasticsearch:
