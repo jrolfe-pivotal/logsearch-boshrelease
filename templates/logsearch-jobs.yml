@@ -10,7 +10,6 @@ jobs:
   instances: 1
   templates:
   - {name: elasticsearch, release: logsearch}
-  - {name: syslog_forwarder, release: logsearch}
   resource_pool: elasticsearch_master
   persistent_disk_pool: elasticsearch_master
   networks:
@@ -32,7 +31,6 @@ jobs:
   instances: 2
   templates:
   - {name: elasticsearch, release: logsearch}
-  - {name: syslog_forwarder, release: logsearch}
   resource_pool: elasticsearch_data
   persistent_disk_pool: elasticsearch_data
   networks:
