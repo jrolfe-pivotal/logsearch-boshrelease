@@ -22,6 +22,7 @@ properties:
     default: false
   elasticsearch.master_hosts:
     description: The list of elasticsearch master node IPs
+    default: ['192.168.0.120']
   elasticsearch.cluster_name:
     description: The name of the elastic search cluster
   elasticsearch.log_level:
