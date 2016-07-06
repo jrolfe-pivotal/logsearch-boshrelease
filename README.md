@@ -1,17 +1,9 @@
-# Logsearch
+# elasticsearch
+This repo is a fork of Logsearch that removes the rest of the ELK stack - Logstash and Kibana - in favor of a simple Elasticsearch cluster.
 
-A scalable stack of [Elasticsearch](http://www.elasticsearch.org/overview/elasticsearch/),
-[Logstash](http://www.elasticsearch.org/overview/logstash/), and
-[Kibana](http://www.elasticsearch.org/overview/kibana/) for your
-own [BOSH](http://docs.cloudfoundry.org/bosh/)-managed infrastructure.
 
-## BREAKING CHANGES
+This release is based on Elasticsearch 2.x
 
-Logsearch < v23.0.0 was based on Elasticsearch 1.x and Kibana 3.
-
-Logsearch > v200 is based on Elasticsearch 2.x and Kibana 4.
-
-There is NO upgrade path.  Sorry :(
 
 ## Getting Started
 
@@ -28,8 +20,10 @@ If you are sure you want install just Logsearch Core, read on...
 
 ## Installing Logsearch Core
 
-0. Upload the latest logsearch release from [bosh.io](https://bosh.io)...
+0. Clone and upload
 
+        $ git clone
+        $ git submodule update --init --recursive
         $ bosh upload release https://bosh.io/d/github.com/logsearch/logsearch-boshrelease
 
 0. Customise your deployment stub:
@@ -39,47 +33,12 @@ If you are sure you want install just Logsearch Core, read on...
 
 0. Generate a manifest
 
-        $ scripts/generate_deployment_manifest $INFRASTRUCTURE logsearch-stub.yml > logsearch.yml
+        $ scripts/generate_deployment_manifest $INFRASTRUCTURE logsearch-stub.yml > elasticsearch.yml
 
 0. Deploy!
 
-    $ bosh -d logsearch.yml deploy
+    $ bosh -d elasticsearch.yml deploy
 
-## Common customisations:
-
-0. Adding new parsing rules:
-
-        logstash_parser:
-          filters: |
-             # Put your additional Logstash filter config here, eg:
-             json {
-                source => "@message"
-                remove_field => ["@message"]
-             }
-
-
-### Release Channels
-
- * The latest stable, final release is available on [bosh.io](http://bosh.io/releases/github.com/logsearch/logsearch-boshrelease)
- * **develop** - The develop branch in this repo is deployed to our test environments.  It is occasionally broken - use with care!
-
-## Known issues
-
-#### VMs lose connectivity to each other after VM recreation (eg. instance type upgrade)
-
-While this issue is not specific to this boshrelease, it is worth noting.
-
-On certain IAAS'es, (AWS confirmed), the bosh-agent fails to flush the ARP cache of the VMs in the deployment which, in rare cases, results in VMs not being able to communicate with each other after some of them has been recreated. The symptoms of when this happens are varied depending on the affected VMs. It could be anything from HAproxy reporting it couldn't find any backends (eg. Kibana) or the parsers failing to connect to the queue.
-
-A [pull request](https://github.com/cloudfoundry/bosh/pull/1190) has been merged into BOSH develop so an official fix for this issue is coming.
-
-The issue, if occurs, should fix itself as the kernel updates incomplete ARP entries, which **should** happen within minutes
-
-This can also be done manually if an immediate manual fix is preferred. This should be done on the VMs that are trying to talk to the VM that has been recreated.
-
-```
-arp -d $recreated_vm_ip
-```
 
 ## License
 
