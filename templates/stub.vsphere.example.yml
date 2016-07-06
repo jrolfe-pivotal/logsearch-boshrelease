@@ -2,8 +2,8 @@ releases:
 - name: logsearch
   version: latest
 
-name: logsearch-ashamalama
-director_uuid: 12345-12345-12345-12345
+name: elasticsearch
+director_uuid: 80b9456e-92e6-45d0-8a5f-ea7c036dfb76
 
 
 jobs:
@@ -13,7 +13,7 @@ jobs:
 
 # Deploy group 2
 - name: elasticsearch_data
-  instances: 2
+  instances: 1
 
 networks:
 - name: default
@@ -22,11 +22,10 @@ networks:
   - range: 192.168.0.0/24
     gateway: 192.168.0.1
     dns:
-    - 8.8.8.8 
+    - 8.8.8.8
     reserved:
     - 192.168.0.1 - 192.168.0.119
     static:
     - 192.168.0.120 - 192.168.0.125
     cloud_properties:
       name: VM Network
-

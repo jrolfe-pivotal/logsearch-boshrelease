@@ -32,81 +32,14 @@ jobs:
   resource_pool: elasticsearch_master
   persistent_disk_pool: elasticsearch_master
 
-- name: cluster_monitor
-  instances: 1
-  networks:
-  - name: default
-    static_ips: (( static_ips(2) ))
-  resource_pool: cluster_monitor
-  properties:
-    nats_to_syslog:
-      nats:
-        user: nats
-        password: nats-password
-        port: 4222
-        machines: [10.0.0.6]
-
-- name: queue
-  instances: 1
-  networks:
-  - name: default
-    static_ips: (( static_ips(3) ))
-  resource_pool: queue
-  persistent_disk_pool: queue
-
 # Deploy group 2
 - name: elasticsearch_data
-  instances: 2
+  instances: 1
   networks:
   - name: default
     static_ips: (( static_ips(16, 17) ))
   resource_pool: elasticsearch_data
   persistent_disk_pool: elasticsearch_data
-
-- name: kibana
-  instances: 1
-  networks:
-  - name: default
-    static_ips: (( static_ips(8) ))
-  resource_pool: kibana
-
-- name: ingestor
-  instances: 1
-  networks:
-  - name: default
-    static_ips: (( static_ips(1) ))
-  resource_pool: ingestor
-
-- name: ingestor-bosh-nats
-  instances: 1
-  networks:
-  - name: default
-    static_ips: (( static_ips(4) ))
-  resource_pool: ingestor
-
-- name: parser
-  instances: 1
-  networks:
-  - name: default
-  resource_pool: parser
-
-# Deploy group 3
-- name: maintenance
-  instances: 1
-  networks:
-  - name: default
-    static_ips: (( static_ips(6) ))
-  resource_pool: maintenance
-
-- name: ls-router
-  instances: 1
-  networks:
-  - name: default
-    static_ips: (( static_ips(5) ))
-  - name: elastic
-    static_ips:
-    - SOME-ELASTIC-IP
-  resource_pool: haproxy
 
 networks:
 - name: default
