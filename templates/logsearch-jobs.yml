@@ -38,7 +38,7 @@ jobs:
   properties:
     elasticsearch:
       master_hosts: (( grab jobs.elasticsearch_master.networks.default.static_ips ))
-      cluster_name: logsearch
+      cluster_name: elasticsearch-default
       exec: ~
       node:
         allow_master: false
